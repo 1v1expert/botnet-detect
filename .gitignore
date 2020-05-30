@@ -133,3 +133,6 @@ dmypy.json
 
 # Pcap files
 *.pcap
+
+# local settings file
+local.py

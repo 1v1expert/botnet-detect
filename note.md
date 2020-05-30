@@ -1,10 +1,12 @@
-1. install Django, pyshark and binary Tshark
+1. install Django, [pyshark](https://github.com/KimiNewt/pyshark/) and binary Tshark | [WireShark](https://tshark.dev/setup/install/)
 
 * brew install wireshark [--with-qt] | Macos
 * $PkgManager install wireshark | Linux
 
 
 [Source CTU-Malware](https://mcfp.felk.cvut.cz/publicDatasets/CTU-Malware-Capture-Botnet-52/)
+
+[New dataset, CTU-13-Extended, now includes pcap files of normal traffic](https://www.stratosphereips.org/blog/2015/7/17/new-dataset-ctu-13-extended-now-includes-pcap-files-of-normal-traffic)
 
 Packet example:
 ```yaml
