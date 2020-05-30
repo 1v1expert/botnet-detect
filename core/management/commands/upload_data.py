@@ -27,7 +27,7 @@ class Command(BaseCommand):
             self.stdout.write(f'{Frame.objects.count()} has been deleted')
             Frame.objects.all().delete()
             
-        pcap_file = PcapFileCapture(filename=filename)
+        pcap_file = PcapFileCapture(filename=filename, limit=1000)
         frames: list = []
         for ic, frame in enumerate(pcap_file.read()):
             # pass
