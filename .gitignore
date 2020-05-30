@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Archive files
+*.bz2
+
+# Pcap files
+*.pcap
