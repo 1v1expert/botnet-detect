@@ -1,10 +1,14 @@
 from django.db import models
 
+from core.managers import VectorModelManager, FrameModelManager
+
 
 class Frame(models.Model):
     length = models.IntegerField(verbose_name='Length')
     destination = models.GenericIPAddressField(verbose_name='Destination')
     source = models.GenericIPAddressField(verbose_name='Source')
+    
+    objects = FrameModelManager()
     
     def __str__(self):
         return f'<Frame from {self.source} to {self.destination}, {self.length}>'
@@ -16,3 +20,8 @@ class Vector(models.Model):
     dip = models.GenericIPAddressField(verbose_name='Destination host')
     srcpkts = models.IntegerField(verbose_name='Count frames from sip -> dip')
     drcpkts = models.IntegerField(verbose_name='Count frames from dip -> sip')
+    
+    objects = VectorModelManager()
+    
+    class Meta:
+        unique_together = (("sip", "dip"), )
