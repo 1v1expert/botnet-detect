@@ -1,11 +1,12 @@
 import logging
 from time import gmtime, strftime, time
 
+import networkx as nx
 from django.core.management.base import BaseCommand
-from core.network_utils.network import DiGraph
 from django.db.models import Q, Sum
 
-from core.models import Frame, Vector, Node
+from core.models import Frame, Node, Vector
+from core.network_utils.network import DiGraph
 from core.network_utils.pcap import PcapFileCapture
 
 # Get an instance of a logger
@@ -76,7 +77,9 @@ class Command(BaseCommand):
         start_time = time()
         
         digraph = DiGraph()
-        
+        betweenness_centrality: dict = nx.betweenness_centrality(digraph)
+        closeness_centrality: dict = nx.closeness_centrality(digraph)
+        eigenvector_centrality: dict = nx.eigenvector_centrality(digraph)
         nodes = Node.objects.all()
         nodes_count = nodes.count()
         
@@ -87,10 +90,15 @@ class Command(BaseCommand):
             node.indegree = dips.count()
             node.outgoing_weight = sips.aggregate(sum=Sum('drcpkts')).get('sum')
             node.incoming_weight = dips.aggregate(sum=Sum('srcpkts')).get('sum')
+            node.betweenness_centrality = betweenness_centrality[str(node.ip)]
+            node.closeness_centrality = closeness_centrality[str(node.ip)]
+            node.eigenvector_centrality = eigenvector_centrality[str(node.ip)]
             node.save()
             
             if inode % 50 == 0:
                 self.stdout.write(f'{inode} processed from {nodes_count}')
+                
+        self.stdout.write(f'Time left: {strftime("%H:%M:%S", gmtime(time() - start_time))}')
     
     def handle(self, *args, **options):
         filename = options["filename"]
