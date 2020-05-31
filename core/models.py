@@ -41,6 +41,7 @@ class Node(models.Model):
     closeness_centrality = models.FloatField(verbose_name='Closeness centrality', null=True)  # показывает, насколько узел близок ко всем остальным узлам в сети  # noqa
     eigenvector_centrality = models.FloatField(verbose_name='Eigenvector centrality', null=True)  # показывает, насколько узел связан с узлами, которые сами имеют большое количество связей  # noqa
     clustering_coefficient = models.FloatField(verbose_name='Clustering coefficient', null=True)  # Локальный коэффициент кластеризации  # noqa
+    alpha_centrality = models.FloatField(verbose_name='Alpha centrality', null=True)  # Мера центральных узлов в пределах графика   # noqa
     
     objects = models.Manager()
     
