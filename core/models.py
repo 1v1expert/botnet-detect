@@ -1,6 +1,6 @@
 from django.db import models
 
-from core.managers import VectorModelManager, FrameModelManager
+from core.managers import FrameModelManager, VectorModelManager
 
 
 class Frame(models.Model):
@@ -25,18 +25,27 @@ class Vector(models.Model):
     
     class Meta:
         unique_together = ("sip", "dip")
+        
+    def __str__(self):
+        return f'{self.dip} -{self.drcpkts}-> {self.sip} -{self.srcpkts}->{self.dip}'
 
 
 # noinspection SpellCheckingInspection
 class Node(models.Model):
     ip = models.GenericIPAddressField(verbose_name='Ip address')
-    outdegree = models.IntegerField(verbose_name='Semi-degree of outcome', null=True)
-    indegree = models.IntegerField(verbose_name='Half degree of approach', null=True)
-    outgoing_weight = models.IntegerField(verbose_name='', null=True)
-    incoming_weight = models.IntegerField(verbose_name='', null=True)
-    degree_centrality = models.IntegerField(verbose_name='', null=True)
+    outdegree = models.IntegerField(verbose_name='Semi-degree of outcome', null=True)  # полустепень исхода
+    indegree = models.IntegerField(verbose_name='Half degree of approach', null=True)  # полустепень захода
+    outgoing_weight = models.IntegerField(verbose_name='Outgoing weight', null=True)  # вес исходящих
+    incoming_weight = models.IntegerField(verbose_name='Incoming weight', null=True)  # вес входящих
+    betweenness_centrality = models.FloatField(verbose_name='Betweenness centrality', null=True)  # степень посредничества, показывает, насколько узел связывает несколько несвязанных сообществ, или занимает позицию "между"  # noqa
+    closeness_centrality = models.FloatField(verbose_name='Closeness centrality', null=True)  # показывает, насколько узел близок ко всем остальным узлам в сети  # noqa
+    eigenvector_centrality = models.FloatField(verbose_name='Eigenvector centrality', null=True)  # показывает, насколько узел связан с узлами, которые сами имеют большое количество связей  # noqa
+    clustering_coefficient = models.FloatField(verbose_name='Clustering coefficient', null=True)  # Локальный коэффициент кластеризации  # noqa
     
     objects = models.Manager()
     
     class Meta:
         unique_together = ("ip", )
+        
+    def __str__(self):
+        return f'<{self.ip}>'

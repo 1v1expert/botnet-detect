@@ -3,3 +3,4 @@ pyshark==0.4.2.11
 psycopg2-binary==2.8.5
 networkx==2.4
 ipython==7.15.0
+matplotlib==3.2.1
