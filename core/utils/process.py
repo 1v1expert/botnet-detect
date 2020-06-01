@@ -24,7 +24,7 @@ class Preprocess:
             Frame.objects.all().delete()
 
         # noinspection SpellCheckingInspection
-        pcap_file = PcapFileCapture(filename=filename, limit=100000)
+        pcap_file = PcapFileCapture(filename=filename, limit=500000)
         frames: list = []
         for ic, frame in enumerate(pcap_file.read()):
             # pass
@@ -42,6 +42,10 @@ class Preprocess:
         if Vector.objects.exists():
             self.logger(f'{Vector.objects.count()} vectors has been deleted')
             Vector.objects.all().delete()
+            
+        if Node.objects.exists():
+            self.logger(f'{Node.objects.count()} nodes has been deleted')
+            Node.objects.all().delete()
     
         frames = Frame.objects.distinct('source')
         frames_count = frames.count()
@@ -73,9 +77,9 @@ class Preprocess:
         start_time = time()
     
         digraph = DiGraph()
-        betweenness_centrality: dict = nx.betweenness_centrality(digraph)
-        closeness_centrality: dict = nx.closeness_centrality(digraph)
-        eigenvector_centrality: dict = nx.eigenvector_centrality(digraph)
+        betweenness_centrality: dict = nx.betweenness_centrality(digraph.get_graph())
+        closeness_centrality: dict = nx.closeness_centrality(digraph.get_graph())
+        eigenvector_centrality: dict = nx.eigenvector_centrality_numpy(digraph.get_graph())
         nodes = Node.objects.all()
         nodes_count = nodes.count()
     
