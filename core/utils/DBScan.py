@@ -20,7 +20,7 @@ X_scaled = scaler.fit_transform(X)
 X_normalized = normalize(X_scaled)
 
 X_normalized = pd.DataFrame(X_normalized)
-pca = PCA(n_components = 2)
+pca = PCA(n_components=2)
 X_principal = pca.fit_transform(X_normalized)
 X_principal = pd.DataFrame(X_principal)
 X_principal.columns = ['P1', 'P2']
@@ -35,10 +35,10 @@ colours[-1] = 'k'
 
 cvec = [colours[label] for label in labels]
 
-r = plt.scatter(X_principal['P1'], X_principal['P2'], color='r');
-g = plt.scatter(X_principal['P1'], X_principal['P2'], color='g');
-b = plt.scatter(X_principal['P1'], X_principal['P2'], color='b');
-k = plt.scatter(X_principal['P1'], X_principal['P2'], color='k');
+r = plt.scatter(X_principal['P1'], X_principal['P2'], color='r')
+g = plt.scatter(X_principal['P1'], X_principal['P2'], color='g')
+b = plt.scatter(X_principal['P1'], X_principal['P2'], color='b')
+k = plt.scatter(X_principal['P1'], X_principal['P2'], color='k')
 
 plt.figure(figsize=(9, 9))
 plt.scatter(X_principal['P1'], X_principal['P2'], c=cvec)
@@ -48,7 +48,7 @@ plt.legend((r, g, b, k), ('Label 0', 'Label 1', 'Label 2', 'Label -1'))
 plt.show()
 db = DBSCAN(eps = 0.0375, min_samples = 50).fit(X_principal)
 labels1 = db.labels_
-colours1 = {}
+colours1 = dict
 colours1[0] = 'r'
 colours1[1] = 'g'
 colours1[2] = 'b'
@@ -78,8 +78,7 @@ k = plt.scatter(
 plt.figure(figsize=(9, 9))
 plt.scatter(X_principal['P1'], X_principal['P2'], c=cvec)
 plt.legend((r, g, b, c, y, m, k),
-           ('Label 0', 'Label 1', 'Label 2', 'Label 3 'Label 4',
-           'Label 5', 'Label -1'),
+           ('Label 0', 'Label 1', 'Label 2', 'Label 3', 'Label 4', 'Label 5', 'Label -1'),
            scatterpoints=1,
            loc='upper left',
            ncol=3,

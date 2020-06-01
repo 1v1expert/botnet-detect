@@ -21,11 +21,11 @@ def subsethood(inC, inSigma, outC, outSigma):
         else:
             return inSigma / outSigma
     elif inC > outC:
-        tmp = inC;
-        inC = outC;
+        tmp = inC
+        inC = outC
         outC = tmp
-        tmp = inSigma;
-        inSigma = outSigma;
+        tmp = inSigma
+        inSigma = outSigma
         outSigma = tmp
 
     if outSigma != inSigma:
