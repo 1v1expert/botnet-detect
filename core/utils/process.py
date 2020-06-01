@@ -47,7 +47,7 @@ class Preprocess:
             self.logger(f'{Node.objects.count()} nodes has been deleted')
             Node.objects.all().delete()
     
-        frames = Frame.objects.distinct('source')
+        frames = Frame.objects.distinct('source')  # todo: rewrite, because is't correct
         frames_count = frames.count()
         for ic, frame in enumerate(frames):
             source, created = Node.objects.get_or_create(ip=frame.source)
