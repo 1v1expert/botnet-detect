@@ -11,7 +11,10 @@ from sklearn.externals.six import StringIO
 from IPython.display import Image
 import pydotplus as pydot
 from sklearn import svm
-from sklearn.cross_validation import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.cluster import KMeans
+from sklearn import decomposition
 import logging
 
 # Get an instance of a logger
@@ -114,3 +117,79 @@ class SVM:
         sns.lmplot('X1', 'X2', scatter=True, fit_reg=False, data=self.data, hue='Y')
         plt.ylabel('X2')
         plt.xlabel('X1')
+
+
+# noinspection PyPep8Naming
+class KNN:
+    def __init__(self, data: QuerySet = None):
+        assert data is None, 'Data is should be is not None'
+        self.data = data
+    
+    def process(self):
+        neighbors = KNeighborsClassifier(n_neighbors=5)
+        X = self.data.values[:, 0:2]
+        Y = self.data.values[:, 2]
+        trainX, testX, trainY, testY = train_test_split(X, Y, test_size=0.3)
+        neighbors.fit(trainX, trainY)
+        logger.info(f'Accuracy: {neighbors.score(testX, testY)}')
+        pred = neighbors.predict(testX)
+        return pred
+    
+    def pprint(self):
+        sns.set_context("notebook", font_scale=1.1)
+        sns.set_style("ticks")
+        sns.lmplot('X1', 'X2', scatter=True, fit_reg=False, data=self.data, hue='Y')
+        plt.ylabel('X2')
+        plt.xlabel('X1')
+
+
+# noinspection PyPep8Naming
+class RFC:
+    def __init__(self, data: QuerySet = None):
+        assert data is None, 'Data is should be is not None'
+        self.data = data
+        
+    def process(self):
+        forest = RandomForestClassifier()
+        X = self.data.values[:, 0:4]
+        Y = self.data.values[:, 4]
+        trainX, testX, trainY, testY = train_test_split(X, Y, test_size=0.3)
+        forest.fit(trainX, trainY)
+        logger.info(f'Accuracy: {forest.score(testX, testY)}')
+        pred = forest.predict(testX)
+        return pred
+
+
+class CustomKMeans:
+    def __init__(self, data: QuerySet = None):
+        assert data is None, 'Data is should be is not None'
+        self.data = data
+    
+    def process(self):
+        kmeans = KMeans(n_clusters=3)
+        X = self.data.values[:, 0:2]
+        kmeans.fit(X)
+        self.data['Pred'] = kmeans.predict(X)
+        self.data.head()
+    
+    def pprint(self):
+        sns.set_context("notebook", font_scale=1.1)
+        sns.set_style("ticks")
+        sns.lmplot('X1', 'X2', scatter=True, fit_reg=False, data=self.data, hue='Pred')
+
+
+class PCA:
+    def __init__(self, data: QuerySet = None):
+        assert data is None, 'Data is should be is not None'
+        self.data = data
+    
+    def process(self):
+        pca = decomposition.PCA()
+        fa = decomposition.FactorAnalysis()
+        X = self.data.values[:, 0:4]
+        Y = self.data.values[:, 4]
+        train, test = train_test_split(X, test_size=0.3)
+        train_reduced = pca.fit_transform(train)
+        test_reduced = pca.transform(test)
+        logger.info(f'{pca.n_components_}')
+        return pca, train_reduced, test_reduced
