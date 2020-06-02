@@ -1,21 +1,21 @@
-import pandas as pd
+import logging
+
 import matplotlib.pyplot as plt
 import numpy as np
-from sklearn import linear_model
-from sklearn.linear_model import LogisticRegression
-import seaborn as sns
-from django.db.models import QuerySet
-from sklearn.cross_validation import train_test_split
-from sklearn import tree
-from sklearn.externals.six import StringIO
-from IPython.display import Image
 import pydotplus as pydot
-from sklearn import svm
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.cluster import KMeans
+import seaborn as sns
+from IPython.display import Image
+from django.db.models import QuerySet
 from sklearn import decomposition
-import logging
+from sklearn import linear_model
+from sklearn import svm
+from sklearn import tree
+from sklearn.cluster import KMeans
+from sklearn.cross_validation import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.externals.six import StringIO
+from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
 
 # Get an instance of a logger
 logger = logging.getLogger('botnet')
